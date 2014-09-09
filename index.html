@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- When using d3.js, make sure you are using the following meta in your head tag 
+    or it might have trouble with some characters.  -->
+    <!-- <meta http-equiv="content-type" content="text/html; charset=UTF8"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Haiyan Operation: Shelter</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/leaflet.css" rel="stylesheet" />
+    <link href="css/main.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div>
+          <a class="navbar-brand navbar-logo" href="#" target="_blank"><img class="prc-logo" src="img/PRC-logo_whiteBorder.png"></a>
+          <a class="navbar-brand" href="http://www.redcross.org.ph/">Philippine Red Cross</a>
+          <a class="navbar-brand" href="#"><small>Haiyan Operation</small></a>
+          <a class="navbar-brand" href="#"><small>Core Shelter</small></a>
+        </div>
+      </div>
+    </div>
+
+    <div id="loading"><img id="loader" src="img/ajax_loader_gray_512.gif" /></div>    
+     
+    <div class="container-fluid"> 
+      <div class="row" style="margin:0;">  
+      <div class="col-sm-7 col-map">
+        
+        <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span></button> 
+        <div id="map"></div>
+      </div> <!-- /.col-sm-8 -->
+      <div class="col-sm-5">
+        <div id="infoWrapper">
+          <div class="infoText">
+            <div class="pageDescription-map">
+              <p>Temporary visualization of first core shelter construction monitoring data. Please report any issues via <a href="mailto://daniel.joseph@ifrc.org">email</a>.</p>
+              <!-- <p><span id="totalHousesCount"></span> are included and <span id="visibleHousesCount"></span> are visible in the current extent. Double-click the map or use the controls in the top left to zoom in.</p>
+              <p>Click a marker on the map for more information.</p> -->
+            </div>
+          </div> <!--  /.infoText  -->
+
+          <div id="houseInfo">
+            <div>              
+              Barangay: <span id="houseBrgy"></span><br>
+              Municipality: <span id="houseMunicip"></span><br>
+              Province: <span id="houseProv"></span> 
+            </div>
+            <div>Shelter design: <span id="houseDesign"></span></div>
+            <div id="houseImg"></div><br>
+            <div id="beamImg"></div><br>
+            
+          </div>
+
+        </div> <!--  /.infoWrapper  -->      
+      </div> <!-- /.col-sm-4 -->
+      </div> <!-- /.row -->
+
+      <div class="row" style="margin:15px;">
+
+        <div>
+          <!-- <h4><small>As part of the Haiyan Operation</small> <span id="totalUnderConstruction">0</span> <small>are currently under construction, and</small>  <span id="totalCompleted">0</span><small> have been completed </small></h4> -->
+        </div>
+        <div id="buttons-geo">
+          <div>
+            <button type="button" class="btn btn-default btn-sm" onClick="provinceNumbers();">Haiyan Operation</button> <span class="glyphicon glyphicon-arrow-right"></span>
+            <span id="buttons-province"></span> 
+            <span id="buttons-municipality"></span> 
+            <span id="buttons-barangay"></span> 
+          </div>
+        </div>
+       
+        <table class="table table-striped table-condensed">
+          <col style="width:20%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <col style="width:10%">
+          <thead>
+            <tr>
+              <th id="table-adminLevel">Province</th>
+              <th>Registered</th>
+              <th>Layout, Excavation</th>
+              <th>Foundation, Columns</th>
+              <th>Roof </th>
+              <th>Walls</th>
+              <th>Floor</th>
+              <th>Toilet</th>
+              <th>Completed</th>
+            </tr>
+          </thead>
+          <tbody id="table-content">
+            <!-- <tr>
+              <td onClick="toggleProvince('Cebu', this);">Province Name</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr> -->
+          </tbody>
+        </table>
+
+
+
+      </div> <!-- /.row -->
+    </div> <!-- /.container-fluid -->
+        
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/main.js"></script>
+
+
+  </body>
+</html>
