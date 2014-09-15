@@ -46,18 +46,18 @@ var centroidOptions = {
 function markerClick (e) {
     var thisHouseCode = e.target.feature.properties.houseCode;    
     var thisHouseImg = e.target.feature.properties.img;
-    // e.target.feature.properties.province
-    // e.target.feature.properties.municipality
-    // e.target.feature.properties.barangay
-
-    // var modalDescription = $(item).find('.modalDescription').html();	
-    // var mapJpg = $(item).find('img').attr("data-original").slice(0,-10) + '.jpg';
-    // var img_maxHeight = (windowHeight*0.60).toString() + "px";
-    // $(".modal-detailedDescription").empty();	
-    // $(".modal-detailedDescription").html(modalDescription); 
-    // $(".modal-img").css('max-height', img_maxHeight);
-    // $(".modal-img").attr('src', mapJpg);
-    // $('#myModal').modal();     
+    var thisProvince = e.target.feature.properties.province;
+    var thisMunicipality = e.target.feature.properties.municipality;
+    var thisBarangay = e.target.feature.properties.barangay;
+    var locationText = "Barangay " + thisBarangay + ", " + thisMunicipality + ", " + thisProvince;
+    var imageUrl = "https://raw.githubusercontent.com/PhilippineRedCross/yolanda_shelter-img/master/images/" + 
+        thisHouseImg;
+    var img_maxHeight = ($(window).height()*0.60).toString() + "px";
+    $('.modal-locationText').html(locationText);
+    $('.modal-body-image').attr('src', imageUrl);
+    $('.modal-body-image').css('max-height', img_maxHeight);
+    $('.modal-houseCodeText').html(thisHouseCode); 
+    $('#imgModal').modal();     
 }
 
 // on window resize
@@ -68,7 +68,7 @@ $(window).resize(function(){
 
 // reset map bounds using Zoom to Extent button
 function zoomOut() {
-    // map.fitBounds(markersBounds);
+    map.fitBounds(markersBounds);
 }
 
 // show disclaimer text on click of dislcaimer link
@@ -93,6 +93,9 @@ function formatData(data){
         var thisGeoJsonObject = {
             "type": "Feature",
             "properties": {
+                "province": item.province,
+                "municipality": item.municipality,
+                "barangay": item.barangay,
                 "houseCode": item.houseCode,
                 "img": item.img_house,                                        
             },
@@ -113,20 +116,14 @@ function markersToMap(){
         maxClusterRadius: 20,   
         spiderfyDistanceMultiplier:2
     });    
-    // idList = [];
-    // displayedPoints=[];
-    // $.each(thumbnails, function (i, thumbnail){
-    //    if($(thumbnail).hasClass("mapped")){
-    //        idList.push($(thumbnail).attr("id"));
+    // displayeShelters=[];
+    // $.each(shelters, function (index, shelter){
+    //    if(condition){
+    //      do this;
+    //      displayedShelters.push(shelter);
     //    }
     // })
-    // $.each(centroids, function (i, centroid){
-    //    var centroid_id = centroid.properties.thumbnail_id;
-    //    if ($.inArray(centroid_id, idList) !== -1){
-    //        displayedPoints.push(centroid);
-    //    }        
-    // })    
-    // marker = L.geoJson(displayedPoints, {
+    // marker = L.geoJson(displayedShelters, {
     marker = L.geoJson(shelters, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, centroidOptions);

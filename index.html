@@ -24,8 +24,28 @@
     
   </head>
   <body>
+
+    <div id="imgModal" class="modal fade">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-body">
+            <img class="modal-body-image" src="#">
+          </div>
+          <div class="modal-footer">
+            <div class="pull-left">
+            <p class="modal-locationText">Modal title</p>
+            <p class="modal-houseCodeText"></p>
+            </div>
+            <button type="button" class="btn btn-default btn-sm pull-right" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
     <a href="http://www.redcross.org.ph/" target="_blank"><img class="prc-logo" src="img/PRC-logo_whiteBorder_small.png"></a>
     <a href="http://ifrc.org/" target="_blank"><img class="ifrc-logo" src="img/IFRC_cobranding_small_backing.png"></a>
+
+    <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Full Extent</button> 
 
     <div id="map"></div>
 
