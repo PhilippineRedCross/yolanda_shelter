@@ -29,7 +29,7 @@ map.addControl(loadingControl);
 // ================
 var shelters = [];
 var markersBounds = [];
-var markers = new L.MarkerClusterGroup();
+var markers = new L.MarkerClusterGroup().addTo(map);
 var centroidOptions = {
     radius: 8,
     fillColor: "#ED1B2E",
@@ -80,7 +80,7 @@ function showDisclaimer() {
 // ======================
 
 // get CSV file
-function getData() { 
+function getData() {
 	d3.csv("data/shelter-data.csv", function(data){ 
 		formatData(data); 
 	});
@@ -97,7 +97,8 @@ function formatData(data){
                 "municipality": item.municipality,
                 "barangay": item.barangay,
                 "houseCode": item.houseCode,
-                "img": item.img_house,                                        
+                "img": item.img_house, 
+                "partner": item.partner                                       
             },
             "geometry": {
                 "type": "Point",
@@ -106,7 +107,56 @@ function formatData(data){
         };
         shelters.push(thisGeoJsonObject);
     });
-    markersToMap();
+    parsePartners();
+}
+
+
+//build partners buttons
+function parsePartners() {
+  var partnerList = [];
+  $(shelters).each(function(index, record){
+    var partnerName = record.properties.partner;
+    if (partnerList.indexOf(partnerName) === -1){
+        partnerList.push(partnerName);
+    }; 
+  });
+  var partnerFilterHtml = '<button id="ALL-PARTNERS" class="btn btn-sm btn-donor filtering all" type="button" onclick="togglePartnerFilter('+"'ALL-DONORS'"+', this);"'+
+      ' style="margin-right:10px;">All<span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
+  partnerList.sort();
+  $.each(partnerList, function(index, partner){
+    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="togglePartnerFilter('+"'"+partner+"'"+', this);">'+partner+
+        '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+    partnerFilterHtml += itemHtml;    
+  });
+  $('#partnerButtons').html(partnerFilterHtml);
+  partnerButtons = $("#partnerButtons").children(); 
+  markersToMap();
+}
+
+function togglePartnerFilter (filter, element) {
+  if($(element).hasClass("filtering") !== true){
+  // if clicked element is off turn every button off and turn clicked on   
+    $.each(partnerButtons, function(i, button){
+      $(button).children().removeClass("glyphicon-check");
+      $(button).children().addClass("glyphicon-unchecked");
+      $(button).removeClass("filtering");
+    });
+    $(element).children().removeClass("glyphicon-unchecked"); 
+    $(element).children().addClass("glyphicon-check");
+    $(element).addClass("filtering");         
+  } else {
+  // if clicked element is on turn it off and turn 'all' filter on
+    $.each(partnerButtons, function(i, button){
+      $(button).children().removeClass("glyphicon-check");
+      $(button).children().addClass("glyphicon-unchecked");
+      $(button).removeClass("filtering");
+    });
+    var partnerAllFilter = $('#partnerButtons').find('.all');
+    $(partnerAllFilter).children().removeClass("glyphicon-unchecked"); 
+    $(partnerAllFilter).children().addClass("glyphicon-check");
+    $(partnerAllFilter).addClass("filtering");
+  }
+  markersToMap();
 }
 
 function markersToMap(){
@@ -116,15 +166,15 @@ function markersToMap(){
         maxClusterRadius: 20,   
         spiderfyDistanceMultiplier:2
     });    
-    // displayeShelters=[];
-    // $.each(shelters, function (index, shelter){
-    //    if(condition){
-    //      do this;
-    //      displayedShelters.push(shelter);
-    //    }
-    // })
-    // marker = L.geoJson(displayedShelters, {
-    marker = L.geoJson(shelters, {
+    var displayedShelters = [];
+    var partnerFilter = $("#partnerButtons").find(".filtering").attr("id");
+    $.each(shelters, function (index, shelter){
+      if(shelter.properties.partner === partnerFilter || partnerFilter === "ALL-PARTNERS"){
+        displayedShelters.push(shelter);
+      }
+    })
+    marker = L.geoJson(displayedShelters, {
+    // marker = L.geoJson(shelters, {
         pointToLayer: function (feature, latlng) {
             return L.circleMarker(latlng, centroidOptions);
         },
@@ -137,10 +187,10 @@ function markersToMap(){
     markers.addLayer(marker);
     markers.addTo(map);
     markersBounds = markers.getBounds();
-    markersBounds._northEast.lat += 0.05;
-    markersBounds._northEast.lng += 0.05;
-    markersBounds._southWest.lat -= 0.05;
-    markersBounds._southWest.lat -= 0.05;
+    markersBounds._northEast.lat += 0.08;
+    markersBounds._northEast.lng += 0.08;
+    markersBounds._southWest.lat -= 0.08;
+    markersBounds._southWest.lat -= 0.08;
     map.fitBounds(markersBounds);    
 } 
 
