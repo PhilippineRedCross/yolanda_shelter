@@ -116,18 +116,23 @@ function formatData(data){
 
 //build partners buttons
 function parsePartners() {
+  var partnerCounts = {};
   var partnerList = [];
   $(shelters).each(function(index, record){
     var partnerName = record.properties.partner;
-    if (partnerList.indexOf(partnerName) === -1){
-        partnerList.push(partnerName);
-    }; 
+    if (partnerName in partnerCounts){
+      partnerCounts[partnerName] += 1;
+    } else {
+      partnerCounts[partnerName] = 1;
+      partnerList.push(partnerName);      
+    } 
   });
   var partnerFilterHtml = '<button id="ALL-PARTNERS" class="btn btn-sm btn-donor filtering all" type="button" onclick="togglePartnerFilter('+"'ALL-DONORS'"+', this);"'+
-      ' style="margin-right:10px;">All<span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
+      ' style="margin-right:10px;">All (' + shelters.length.toString() + ')<span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
   partnerList.sort();
   $.each(partnerList, function(index, partner){
-    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="togglePartnerFilter('+"'"+partner+"'"+', this);">'+partner+
+    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="togglePartnerFilter('+"'"+partner+"'"+', this);">'+
+        partner +' (' + partnerCounts[partner] + ')'+ 
         '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
     partnerFilterHtml += itemHtml;    
   });
