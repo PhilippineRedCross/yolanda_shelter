@@ -30,6 +30,8 @@ map.addControl(loadingControl);
 
 // global variables
 // ================
+var allPartners = true;
+var allProvinces = true;
 var shelters = [];
 var markersBounds = [];
 var markers = new L.MarkerClusterGroup().addTo(map);
@@ -96,6 +98,9 @@ function formatData(data){
         var thisGeoJsonObject = {
             "type": "Feature",
             "properties": {
+                "admin2": item.admin2,
+                "admin3": item.admin3,
+                "admin4": item.admin4,
                 "province": item.province,
                 "municipality": item.municipality,
                 "barangay": item.barangay,
@@ -127,24 +132,93 @@ function parsePartners() {
       partnerList.push(partnerName);      
     } 
   });
-  var partnerFilterHtml = '<button id="ALL-PARTNERS" class="btn btn-sm btn-donor filtering all" type="button" onclick="togglePartnerFilter('+"'ALL-DONORS'"+', this);"'+
-      ' style="margin-right:10px;">All (' + shelters.length.toString() + ')<span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
+  var partnerFilterHtml = "";
   partnerList.sort();
   $.each(partnerList, function(index, partner){
-    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="togglePartnerFilter('+"'"+partner+"'"+', this);">'+
-        partner +' (' + partnerCounts[partner] + ')'+ 
-        '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="toggleFilter('+"'partners'"+', this);">'+
+        partner + 
+        ' <span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
     partnerFilterHtml += itemHtml;    
   });
   $('#partnerButtons').html(partnerFilterHtml);
-  partnerButtons = $("#partnerButtons").children(); 
+
+  parseProvinces();
+}
+
+
+function parseProvinces() {
+  var provinceInfo = {};
+  $(shelters).each(function(index, record){
+    var admin2 = record.properties.admin2;
+    // var provinceName = record.properties.province
+    if (admin2 in provinceInfo){
+      provinceInfo[admin2].count += 1;
+    } else {
+      provinceInfo[admin2] = {};
+      provinceInfo[admin2].count = 1;
+      provinceInfo[admin2].name = record.properties.province;      
+    } 
+  });
+  var provinceFilterHtml = "";
+  $.each(provinceInfo, function(index, province){
+    var itemHtml = '<button id="'+index+'" class="btn btn-sm btn-donor" type="button" onclick="toggleFilter('+"'provinces'"+', this);">'+
+        province.name + 
+        ' <span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+    provinceFilterHtml += itemHtml;    
+  });
+  $('#provinceButtons').html(provinceFilterHtml);
+
   markersToMap();
 }
 
-function togglePartnerFilter (filter, element) {
+// function parseMunicip(pcode) {
+//   $('#municipButtonsWrapper').empty();
+//   var municipInfo = {};
+//   var admin2 = pcode;
+//   $(shelters).each(function(index, record){
+//     var thisAdmin2 = record.properties.admin2;
+//     var admin3 = record.properties.admin3;
+//     if (admin2 === thisAdmin2){
+//       if (admin3 in municipInfo){
+//         municipInfo[admin3].count += 1;
+//       } else {
+//         municipInfo[admin3] = {};
+//         municipInfo[admin3].count = 1;
+//         municipInfo[admin3].name = record.properties.municipality;      
+//       } 
+//     }
+//   var municipFilterHtml = '<h6><b>Municipalities:</b><span  id="municipButtons" style="padding-left:10px;">' ;
+//   $.each(municipInfo, function(index, municip){
+//     var itemHtml = '<button id="'+index+'" class="btn btn-sm btn-municip" type="button" onclick="toggleFilter('+"'municipalities'"+', this);">'+
+//         municip.name +' (' + municip.count + ')'+ 
+//         '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+//     municipFilterHtml += itemHtml;    
+//   });
+//   municipFilterHtml += '</span></h6>';
+//   $('#municipButtonsWrapper').html(municipFilterHtml);
+    
+//   });
+// }
+          
+
+function toggleFilter(filter, element) {
+  
+  var filterbuttons;
+  var filterAllFilter;
+
+  switch(filter){
+    case 'partners':
+      filterButtons = $("#partnerButtons").children(); 
+      allPartners = false;
+      break; 
+    case 'provinces':
+      filterButtons = $("#provinceButtons").children();
+      allProvinces = false;
+      break;
+  } 
   if($(element).hasClass("filtering") !== true){
   // if clicked element is off turn every button off and turn clicked on   
-    $.each(partnerButtons, function(i, button){
+    $.each(filterButtons, function(i, button){
       $(button).children().removeClass("glyphicon-check");
       $(button).children().addClass("glyphicon-unchecked");
       $(button).removeClass("filtering");
@@ -153,19 +227,24 @@ function togglePartnerFilter (filter, element) {
     $(element).children().addClass("glyphicon-check");
     $(element).addClass("filtering");         
   } else {
-  // if clicked element is on turn it off and turn 'all' filter on
-    $.each(partnerButtons, function(i, button){
+  // if clicked element is on turn it off and turn 'all' filter for that category to true
+    $.each(filterButtons, function(i, button){
       $(button).children().removeClass("glyphicon-check");
       $(button).children().addClass("glyphicon-unchecked");
       $(button).removeClass("filtering");
     });
-    var partnerAllFilter = $('#partnerButtons').find('.all');
-    $(partnerAllFilter).children().removeClass("glyphicon-unchecked"); 
-    $(partnerAllFilter).children().addClass("glyphicon-check");
-    $(partnerAllFilter).addClass("filtering");
+    switch(filter){
+      case 'partners':
+        allPartners = true;
+        break; 
+      case 'provinces':
+        allProvinces = true;
+        break;
+    }    
   }
   markersToMap();
 }
+
 
 function markersToMap(){
     map.removeLayer(markers);
@@ -176,11 +255,39 @@ function markersToMap(){
     });    
     var displayedShelters = [];
     var partnerFilter = $("#partnerButtons").find(".filtering").attr("id");
+    var provinceFilter = $("#provinceButtons").find(".filtering").attr("id");
     $.each(shelters, function (index, shelter){
-      if(shelter.properties.partner === partnerFilter || partnerFilter === "ALL-PARTNERS"){
-        displayedShelters.push(shelter);
+      if(shelter.properties.partner === partnerFilter || allPartners === true){
+        if(shelter.properties.admin2 === provinceFilter || allProvinces === true){
+          displayedShelters.push(shelter);
+        }
       }
-    })
+    });
+    // update count
+    var displayedCount = displayedShelters.length.toString();
+    $("#mappedCount").html(displayedCount);
+
+    //disable buttons
+    var possibleFilters = ["ALL-PARTNERS", "ALL-PROVINCES"];
+    var filterProperties = ["partner", "admin2", "admin3", "admin4"];
+    $.each(displayedShelters, function(index, shelter){
+      $.each(filterProperties, function(index2, property){
+        if($.inArray(shelter.properties[property], possibleFilters) === -1){
+          possibleFilters.push(shelter.properties[property]);
+        } 
+      }); 
+    });    
+    var filterGroups = ["#partnerButtons", "#provinceButtons"];
+    $.each(filterGroups, function(index, grouping){
+      var thisButtons = $(grouping).children();
+      thisButtons.removeClass("disabled");
+      $.each(thisButtons, function(index2, button){
+        var buttonId = $(button).attr("id");
+        if($.inArray(buttonId, possibleFilters) === -1){
+          $(button).addClass("disabled");
+        }
+      });
+    });
     marker = L.geoJson(displayedShelters, {
     // marker = L.geoJson(shelters, {
         pointToLayer: function (feature, latlng) {
