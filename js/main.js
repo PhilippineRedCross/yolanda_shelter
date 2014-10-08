@@ -294,6 +294,7 @@ function toggleFilter(filter, element) {
 function resetFilters(){
   allPartners = true;
   allProvinces = true;
+  allMunicip = true;
   allBarangays = true;
   $.each($("#provinceButtons").children(), function(i, button){
     $(button).children().removeClass("glyphicon-check");
