@@ -246,6 +246,23 @@ function toggleFilter(filter, element) {
 }
 
 
+function resetFilters(){
+  allPartners = true;
+  allProvinces = true;
+  $.each($("#provinceButtons").children(), function(i, button){
+    $(button).children().removeClass("glyphicon-check");
+    $(button).children().addClass("glyphicon-unchecked");
+    $(button).removeClass("filtering");
+  });
+  $.each($("#partnerButtons").children(), function(i, button){
+    $(button).children().removeClass("glyphicon-check");
+    $(button).children().addClass("glyphicon-unchecked");
+    $(button).removeClass("filtering");
+  });
+  markersToMap();
+}
+
+
 function markersToMap(){
     map.removeLayer(markers);
     markers = new L.MarkerClusterGroup({
