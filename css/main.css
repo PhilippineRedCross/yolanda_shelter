@@ -36,6 +36,14 @@ html, body, #map {
   text-align: left;
 }
 
+.tableIcon {
+  height: 34px;
+  width: 34px;
+}
+.table-custom {
+  width: 0;
+}
+
 .btn-zoom {
   position: absolute;
   right: 47px;
@@ -61,26 +69,49 @@ html, body, #map {
   color: #6d6e70;
 }
 
+.btn-donor{
+  background-color: #cd7f91;
+  color: #525252;
+}
+.btn-donor:hover, .btn-donor.filtering {
+  background-color: #b84862;  
+  color:#000000; 
+}
+.btn-province{
+  background-color: #7fcdbb;
+  color: #525252;
+}
+.btn-province:hover, .btn-province.filtering {
+  background-color: #48b89e;  
+  color:#000000;
+}
+.btn-municip{
+  background-color: #c7e9b4;
+  color: #525252;
+}
+.btn-municip:hover, .btn-municip.filtering {
+  background-color: #9bd879;  
+  color:#000000; 
+}
+.btn-brgy{
+  background-color: #edf8b1;
+  color: #525252;
+}
+.btn-brgy:hover, .btn-brgy.filtering {
+  background-color: #ddf26b;  
+  color:#000000; 
+}
+.btn-donor, .btn-province, .btn-municip, .btn-brgy {
+  margin-bottom: 3px;
+  margin-right: 3px;
+}
 .btn:focus, .btn:hover, .btn:active {
   outline: 0 !important;
 }
-.btn-donor, .btn-province {
-  background-color: #C4DFF6;
-  margin-bottom: 5px;
-  margin-right: 3px;
-}
-.btn-donor:focus, .btn-province:focus {
-  outline:0;
-  color: black;
-}
-.btn-donor:hover,
-.btn-donor.filtering, 
-.btn-province:hover, 
-.btn-province.filtering {
-  background-color: #56A0D3;  
-  outline: 0;
-  color:#f5f5f5; 
-}
+/*.btn-donor:focus, .btn-province:focus, .btn-municip:focus, .btn-brgy:focus {
+  color: #000000;
+}*/
+
 /* default marker cluster */
 .marker-cluster {
   background-clip: padding-box;
@@ -105,21 +136,21 @@ html, body, #map {
   background-color: rgba(255, 255, 255, 0.5);
 }
 .marker-cluster-small div {
-  background-color: rgba(237, 27, 46, 0.7);
+  background-color: rgba(165, 15, 21, 0.7);
 }
 
 .marker-cluster-medium {
   background-color: rgba(255, 255, 255, 0.5);
 }
 .marker-cluster-medium div {
-  background-color: rgba(237, 27, 46, 0.7);
+  background-color: rgba(165, 15, 21, 0.7);
 }
 
 .marker-cluster-large {
   background-color: rgba(255, 255, 255, 0.5);
 }
 .marker-cluster-large div {
-  background-color: rgba(237, 27, 46, 0.7);
+  background-color: rgba(165, 15, 21, 0.7);
 }
 .marker-cluster div {
   color: #FFF;

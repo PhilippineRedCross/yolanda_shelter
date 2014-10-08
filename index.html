@@ -53,28 +53,102 @@
 
       <div class="row" style="padding:0 10px;">
 
-        <h3><span id="mappedCount"></span> <small>houses on the map</small></h3>
+        <div class="col-sm-6">
 
-        <button class="btn btn-xs btn-default btn-reset" type="button" onclick="resetFilters();"> Reset Filters <span class="glyphicon glyphicon-refresh" style="margin-left:4px;"></span></button>
+          <h1><span id="mappedCount"></span> <small>houses on the map</small></h1>
+          <p><small>Please submit questions or feedback by <a href="mailto:daniel.joseph@ifrc.org" target="_blank" title="daniel.joseph@ifrc.org">email</a>.</small></p> 
+
+          <button class="btn btn-xs btn-default btn-reset" type="button" onclick="resetFilters();"> Reset Filters <span class="glyphicon glyphicon-refresh" style="margin-left:4px;"></span></button>
+          
+          <p><h6>
+            <b>Cooperating Partners:</b>
+            <span  id="partnerButtons" style="padding-left:10px;"></span>
+          </h6></p>
+          
+          <p><h6>
+            <b>Provinces:</b>
+            <span  id="provinceButtons" style="padding-left:10px;"></span>
+          </h6></p>
+          
+          <div id="municipButtonsWrapper"></div>
+          <div id="barangayButtonsWrapper"></div>
+
+          
         
-        <p><h6>
-          <b>Cooperating Partners:</b>
-          <span  id="partnerButtons" style="padding-left:10px;"></span>
-        </h6></p>
-        
-        <p><h6>
-          <b>Provinces:</b>
-          <span  id="provinceButtons" style="padding-left:10px;"></span>
-        </h6></p>
-        
-        <div id="municipButtonsWrapper"></div>
+        </div>
+            
+        <div class="col-sm-6">
+
+          <table class="table table-custom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Female</th>
+                <th>Male</th>                
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="active">
+                <td style="font-weight:bold;"><span id="grandTotal"></span> total</td>
+                <td><span id="femaleTotal"></span></td>
+                <td><span id="maleTotal"></span></td>
+              </tr>              
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/infant.png"> Young</td>
+                <td><span id="femaleYoung"></span></td>
+                <td><span id="maleYoung"></span></td>
+              </tr>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/children.png"> Child</td>
+                <td><span id="femaleChild"></span></td>
+                <td><span id="maleChild"></span></td>
+              </tr>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/adult.png"> Adult</td>
+                <td><span id="femaleAdult"></span></td>
+                <td><span id="maleAdult"></span></td>
+              </tr>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/elderly.png"> Senior</td>
+                <td><span id="femaleSenior"></span></td>
+                <td><span id="maleSenior"></span></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table class="table table-custom">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Female</th>
+                <th>Male</th>                
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/singleheaded.png"> Single Head</td>
+                <td><span id="fSingleHead"></span></td>
+                <td><span id="mSingleHead"></span></td>
+              </tr>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/disability.png"> Disability</td>
+                <td><span id="fDisabled"></span></td>
+                <td><span id="mDisabled"></span></td>
+              </tr>
+              <tr>
+                <td><img class="tableIcon pull-right" src="img/pregnant.png"> Pregnant/ lactating</td>
+                <td><span id="pregnant"></span></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
 
 
-        <p>This page is under development, please submit feedback by <a href="mailto:daniel.joseph@ifrc.org" target="_blank" title="daniel.joseph@ifrc.org">email</a>.</p> 
-        <a href="http://ifrc.org/" target="_blank"><img class="ifrc-logo" src="img/IFRC_cobranding_small_backing.png"></a>
-      </div>
+        </div>
 
     </div>
+
+    <a href="http://ifrc.org/" target="_blank"><img class="ifrc-logo" src="img/IFRC_cobranding_small_backing.png"></a>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
