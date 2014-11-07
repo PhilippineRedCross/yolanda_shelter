@@ -73,6 +73,7 @@ html, body, #map {
   background-color: #cd7f91;
   color: #525252;
 }
+
 .btn-donor:hover, .btn-donor.filtering {
   background-color: #b84862;  
   color:#000000; 
