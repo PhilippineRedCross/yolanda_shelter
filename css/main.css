@@ -15,6 +15,17 @@ html, body, #map {
   z-index: 999;
 }
 
+#loading {
+  position: absolute;
+  z-index: 99999;
+  width: 100%;
+  text-align: center;
+}
+#loader{
+  height: 280px;
+  margin-top: 10px;
+}
+
 .modal-body {
   text-align: center;
 }

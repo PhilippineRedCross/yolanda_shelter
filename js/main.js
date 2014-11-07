@@ -205,6 +205,7 @@ function buildProvinceDropdown() {
         "'"+ provinceAdminLookup[item] +"', this"+ '); return false;">' + item + "</li>";
       $('#dropdown-menu-province').append(listItemHtml);       
   }
+  $("#loading").fadeOut(300);
   filterData();
 }
 
