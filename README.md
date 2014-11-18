@@ -1,5 +1,6 @@
-## Yolanda Recovery: Shelter
+## Haiyan Recovery: Shelter
 
+http://philippineredcross.github.io/yolanda_shelter/
 
 **Technology Used:**
 - [Bootstrap v3.2.0](http://getbootstrap.com/)

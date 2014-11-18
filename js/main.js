@@ -219,7 +219,7 @@ function provinceSelect(admin2, element){
   $("#selected-admin-label").html(activeProvinceName);
   buildMunicipalityDropdown();
   disablePartnerButtons();
-  filterData();
+  changePartnerFilter();
 }
 
 function municipalitySelect(admin3, element){
@@ -231,7 +231,7 @@ function municipalitySelect(admin3, element){
   $("#selected-barangay-text").empty();
   buildBarangayDropdown();
   disablePartnerButtons();
-  filterData();
+  changePartnerFilter();
 }
 
 function barangaySelect(admin4, element){
@@ -239,7 +239,7 @@ function barangaySelect(admin4, element){
   activeBarangayName = $(element).html();
   $("#selected-admin-label").html(activeProvinceName + ", " + activeMunicipalityName + ", "+ activeBarangayName);
   disablePartnerButtons();
-  filterData();
+  changePartnerFilter();
 }
 
 function togglePartnerFilter (filter, element) {
@@ -310,6 +310,7 @@ function buildMunicipalityDropdown(){
         "'"+ municipalityAdminLookup[item] +"', this"+ '); return false;">' + item + "</li>"
       $('#dropdown-menu-municipality').append(listItemHtml);       
   }
+
 }
 
 function buildBarangayDropdown() {
