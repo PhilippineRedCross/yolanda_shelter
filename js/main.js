@@ -408,7 +408,7 @@ function filterData(){
       }
     }
   });
-  $("#mappedCount").html(filteredData.length.toString());
+  $("#mappedCount").html(formatCommas(filteredData.length.toString()));
   markersToMap();
 }
 
